@@ -26,8 +26,8 @@
             <file leaf-file-name="clip.html" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/clip.html">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.5254237" vertical-offset="759" max-vertical-offset="3077">
-                    <caret line="72" column="16" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="16" />
+                  <state vertical-scroll-proportion="0.46779662" vertical-offset="759" max-vertical-offset="3077">
+                    <caret line="69" column="53" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="53" />
                     <folding />
                   </state>
                 </provider>
@@ -58,7 +58,7 @@
         <entry file="file://$PROJECT_DIR$/drag.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.72230655" vertical-offset="272" max-vertical-offset="935">
-              <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+              <caret line="46" column="23" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
               </folding>
@@ -267,21 +267,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clip.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5254237" vertical-offset="759" max-vertical-offset="3077">
-          <caret line="72" column="16" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/drag.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72230655" vertical-offset="272" max-vertical-offset="935">
-          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+          <caret line="46" column="23" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
           <folding>
             <element signature="e#0#42#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clip.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46779662" vertical-offset="759" max-vertical-offset="3077">
+          <caret line="69" column="53" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>

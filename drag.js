@@ -44,7 +44,7 @@ function startDrag(e){
 function getPosition(elem){
     var elemX = elem.offset().left; // 相对于element.offsetParent节点的左边界偏移像素值
     var elemY = elem.offset().top;  // 相对于element.offsetParent节点的上边界偏移像素值
-    while(var elemN = elem.parent()){  //遍历父元素
+    while(elem = elem.parent){  //遍历父元素
         elemX += elemN.offsetLeft;
         elemY += elemN.offsetTop;
     }
