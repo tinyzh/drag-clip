@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>JS截取图片效果展示</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #wrap{max-width: 1280px;margin: 20px auto;position: relative;}
+        #cArea{position: relative;overflow: hidden;width: 600px;height: 390px;background: #abcdef;}
+        .baseImg{position: absolute;top: 0;left: 0;opacity: .3;}
+        .clipImg{position: absolute;top: 0;left: 0;clip: rect(0 200px 200px 0);}
+        #drag{width: 200px;height: 200px;position: absolute;border: 1px dashed #eee;cursor: move;box-sizing: border-box;z-index: 999;}
+        .dragDot{width: 6px;height: 6px;background: #fff;border: 1px solid #888;position: absolute;opacity: 0.8;}
+        #cLeftUp{top: -4px;left: -4px;cursor: nw-resize;}
+        #cUp{top: -4px;left: 50%;margin-left: -4px;cursor: n-resize;}
+        #cRightUp{top: -4px;right: -4px;cursor: ne-resize;}
+        #cRight{right: -4px;top: 50%;margin-top: -4px;cursor: e-resize;}
+        #cRightDown{bottom: -4px;right: -4px;cursor: se-resize;}
+        #cDown{bottom: -4px;left: 50%;margin-left: -4px;cursor: s-resize;}
+        #cLeftDown{bottom: -4px;left: -4px;cursor: sw-resize;}
+        #cLeft{left: -4px;top: 50%;margin-top: -4px;cursor: w-resize;}
+        #preview{width: 600px;height: 390px;position: absolute;top: 0;right: 0;}
+        #previewImg{position: absolute;top: 0;left: 0;clip: rect(0 200px 200px 0);}
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div id="cArea">
+        <img src="./1.jpg" alt="storm.jpg" class="baseImg">
+        <img src="./1.jpg" alt="storm.jpg" id="clipImg" class="clipImg">
+        <div id="drag">
+            <div id="cRightDown" class="dragDot"></div>
+            <div id="cLeftDown" class="dragDot"></div>
+            <div id="cRightUp" class="dragDot"></div>
+            <div id="cLeftUp" class="dragDot"></div>
+            <div id="cRight" class="dragDot"></div>
+            <div id="cDown" class="dragDot"></div>
+            <div id="cLeft" class="dragDot"></div>
+            <div id="cUp" class="dragDot"></div>
+        </div>
+    </div>
+    <div id="preview">
+        <img src="./1.jpg" alt="storm.jpg" id="previewImg">
+    </div>
+</div>
+<script type="text/javascript">
+    function $(id){
+        return document.getElementById(id)
+    };
+    var cArea = $('cArea');        // 图片容器
+    var clipImg = $('clipImg');    // 裁剪层
+    var drag = $('drag');          // 拖拽区域
+    var previewImg = $('previewImg'); //预览图
+    var cAreaH = cArea.offsetHeight;  // 图片显示区的高度
+    var cAreaW = cArea.offsetWidth;   // 图片显示区的宽度
+    var cAreaTop = getPosition(cArea).Y; //图片容器距离浏览器上边界距离
+    var cAreaLeft = getPosition(cArea).X; //图片容器距离浏览器左边界距离
+    var mousePosition,mouseStartX,mouseStartY,dragLeft,dragTop,dragMaxH,dragMaxW // 定义按下鼠标时产生的变量
+
+    drag.addEventListener('mousedown', startDrag, false);  // 给拖拽区添加鼠标按下事件
+
+    function startDrag(e) {
+        console.log(e);
+        e.preventDefault();
+        mouseStartX = e.clientX;    // 刚按下鼠标时 鼠标相对浏览器边界的 X 坐标
+        mouseStartY = e.clientY;    // 刚按下鼠标时 鼠标相对浏览器边界的 Y 坐标
+        dragLeft = drag.offsetLeft; // 刚按下鼠标时 裁剪区的距离图片显示区 左 边界距离
+        dragTop = drag.offsetTop;   // 刚按下鼠标时 裁剪区的距离图片显示区 上 边界距离
+        dragMaxH = cAreaH - drag.offsetHeight;  // 垂直最大范围
+        dragMaxW = cAreaW - drag.offsetWidth;   // 水平最大范围
+        mousePosition = e.target.id; // 判断按下位置
+        document.addEventListener('mousemove', dragging, false);
+        document.addEventListener('mouseup', clearDragEvent, false);
+    };
+
+    // 鼠标松开时释放事件
+    function clearDragEvent(e) {
+        document.removeEventListener('mousemove', dragging, false);
+        document.removeEventListener('mouseup', clearDragEvent, false)
+    };
+
+    // 整体拖拽
+    function dragMove(e) {
+        var moveX = e.clientX - mouseStartX; // 拖拽中 鼠标坐标变化值
+        var moveY = e.clientY - mouseStartY; // 拖拽中 鼠标坐标变化值
+        var destinationX = Math.min((moveX + dragLeft), dragMaxW); // 限制拖动的最大范围，避免超出右和下边界
+        var destinationY = Math.min((moveY + dragTop), dragMaxH);  // 限制拖动的最大范围，避免超出右和下边界
+        drag.style.left = destinationX < 0 ? 0 : destinationX + 'px'; // 限制最小范围，避免超出上和左边界
+        drag.style.top = destinationY < 0 ? 0 : destinationY + 'px';  // 限制最小范围，避免超出上和左边界
+        setClip();
+    };
+
+    // 鼠标移动
+    function dragging(e) {
+        e.stopPropagation();
+        window.getSelection().removeAllRanges();  // 避免图片被中
+        switch(mousePosition) {
+            case 'drag' : dragMove(e);  break;
+            case 'cUp' :  upDownMove(e, 'up');  break;
+            case 'cDown' : upDownMove(e, 'down');  break;
+            case 'cLeft' : leftRightMove(e, 'left');  break;
+            case 'cRight' : leftRightMove(e, 'right');  break;
+            case 'cLeftUp' : leftRightMove(e, 'left'); upDownMove(e, 'up');  break;
+            case 'cRightUp' : leftRightMove(e, 'right');upDownMove(e, 'up');  break;
+            case 'cLeftDown' : leftRightMove(e, 'left'); upDownMove(e, 'down');  break;
+            case 'cRightDown' : leftRightMove(e, 'right'); upDownMove(e, 'down');  break;
+            default : break;
+        }
+    };
+
+    // 控制裁剪显示区域和拖拽区同步
+    function setClip() {
+        var clipTop = drag.offsetTop;
+        var clipLeft = drag.offsetLeft;
+        var clipRight = drag.offsetWidth + drag.offsetLeft;
+        var clipBottom = drag.offsetHeight + drag.offsetTop;
+        clipImg.style.clip = 'rect(' + clipTop + 'px ' + clipRight + 'px ' + clipBottom + 'px ' + clipLeft + 'px)';
+        setPreview({top: clipTop, right: clipRight, bottom: clipBottom, left: clipLeft})
+    };
+
+    // 上下方向的边框拖动
+    function upDownMove(e, str) {
+        var draggingY = e.clientY;
+        if(draggingY < cAreaTop) draggingY = cAreaTop;
+        if(draggingY > cAreaTop + cAreaH) draggingY = cAreaTop + cAreaH;
+        var dragY = getPosition(drag).Y;
+        if(str === 'up'){
+            var changeHeight = dragY - draggingY;
+            drag.style.top = drag.offsetTop - dragY + draggingY + 'px';
+        } else if(str === 'down') {
+            var changeHeight = draggingY - drag.offsetHeight - dragY;
+        }
+        drag.style.height = drag.offsetHeight + changeHeight + 'px';
+        setClip();
+    };
+
+    // 水平方向的边框拖动
+    function leftRightMove(e, str) {
+        var draggingX = e.clientX;
+        if(draggingX < cAreaLeft) draggingX = cAreaLeft;
+        if(draggingX > cAreaLeft + cAreaW) draggingX = cAreaLeft + cAreaW;
+        var dragX = getPosition(drag).X;
+        if(str === 'left') {
+            var changeWidth = dragX - draggingX;
+            drag.style.left = drag.offsetLeft - changeWidth + 'px';
+        } else if(str === 'right') {
+            var changeWidth = draggingX - drag.offsetWidth - dragX;
+        }
+        drag.style.width = drag.offsetWidth + changeWidth + 'px';
+        setClip();
+    };
+
+    // 获取元素距离浏览器边界坐标
+    function getPosition(elem) {
+        var elemX = elem.offsetLeft;
+        var elemY = elem.offsetTop;
+        while(elem = elem.offsetParent) {
+            elemX += elem.offsetLeft;
+            elemY += elem.offsetTop
+        }
+        return {X : elemX, Y : elemY}
+    };
+
+    // 控制预览区显示
+    function setPreview(clip){
+        previewImg.style.top = -clip.top + 'px';
+        previewImg.style.left = -clip.left + 'px';
+        previewImg.style.clip = 'rect(' + clip.top + 'px ' + clip.right + 'px ' + clip.bottom + 'px '+ clip.left + 'px)';
+    };
+</script>
+
+
+
+</body>
+</html>

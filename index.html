@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="style.css"/>
+
+
+
+  </head>
+  <body>
+    <div id="ele">
+      <div class="img img1">
+        <img src="1.jpg" width="100%"/>
+      </div>
+      <div class="img img2">
+        <img src="2.jpg" width="100%"/>
+      </div>
+
+      <div id="drag">
+        <div id="cRightDown" class="dragDot"></div>
+        <div id="cLeftDown" class="dragDot"></div>
+        <div id="cRightUp" class="dragDot"></div>
+        <div id="cLeftUp" class="dragDot"></div>
+        <div id="cRight" class="dragDot"></div>
+        <div id="cDown" class="dragDot"></div>
+        <div id="cLeft" class="dragDot"></div>
+        <div id="cUp" class="dragDot"></div>
+      </div>
+    </div>
+
+    <div id="wrap">
+
+    </div>
+
+    <div class="go">生成</div>
+    <div class="upload">上传</div>
+    <script src="jquery2.0.3.js"></script>
+    <script type="text/javascript" src="html2canvas.js"></script>
+    <script src="drag.js"></script>
+    <script type="text/javascript">
+      var ele = document.getElementById('ele');
+      var wrap = $('#wrap');
+      var uploadBtn = $('.upload');
+
+      $('.go').on('click',function(){
+        html2canvas(ele).then(function(canvas) {
+          canvas.fillStyle = "#fff";
+          var img = convertCanvasToImage(canvas);
+          var minSizeFile = canvas.toDataURL('image/jpeg',0.7);
+          base64_uploading(minSizeFile);
+          wrap.html(img);
+        });
+      });
+
+      uploadBtn.on('click',function(){
+          var base64Data = wrap.find('img').attr('src');
+          base64_uploading(base64Data);
+      });
+
+
+      function convertCanvasToImage(canvas){
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        return image;
+      }
+
+      function base64_uploading(base64Data){
+        $.ajax({
+            type : 'POST',
+            url : 'receive.php',
+            data : {
+              'base64' : base64Data
+            },
+            dataType : 'json',
+            timeout : 50000,
+            success : function(data){
+                console.log(data);
+            }
+        })
+      }
+
+    </script>
+  </body>
+</html>
