@@ -1,5 +1,6 @@
 *{padding: 0;margin: 0;}
-#ele{width:400px;height: 400px;position:relative;margin-bottom: 50px;overflow: hidden;background: #fff;}
+#ele{width:400px;height: 400px;position:relative;margin-bottom: 50px;overflow: hidden;background: #abcdef;margin: 5px 0 0 5px;}
+.active{border: 4px dashed #ffa000;}
 .img{position: absolute;}
 .img1{left: 20px;top: 30px;width:300px;}
 .img2{left: 60px;top: 70px;width:160px;transform: rotate(75deg); }
@@ -7,13 +8,23 @@
 .go{position: fixed;right: 50px;top: 10px;cursor: pointer;border: 1px solid #000;border-radius: 5px;padding: 5px;}
 .upload{position: fixed;right: 50px;top: 50px;cursor: pointer;border: 1px solid #000;border-radius: 5px;padding: 5px;}
 
-#drag{width: 200px;height: 200px;position: absolute;border: 1px dashed #eee;cursor: move;box-sizing: border-box;z-index: 999;background: rgba(221,221,221,.5)}
+.drag{width: 100px;height: 100px;position: absolute;border: 1px dashed #eee;cursor: move;box-sizing: border-box;z-index: 999;background: rgba(221,221,221,.5);text-align: center;}
+.drag img{height: 100%;}
 .dragDot{width: 6px;height: 6px;background: #fff;border: 1px solid #888;position: absolute;opacity: 0.8;}
-#cLeftUp{top: -4px;left: -4px;cursor: nw-resize;}
-#cUp{top: -4px;left: 50%;margin-left: -4px;cursor: n-resize;}
-#cRightUp{top: -4px;right: -4px;cursor: ne-resize;}
-#cRight{right: -4px;top: 50%;margin-top: -4px;cursor: e-resize;}
-#cRightDown{bottom: -4px;right: -4px;cursor: se-resize;}
-#cDown{bottom: -4px;left: 50%;margin-left: -4px;cursor: s-resize;}
-#cLeftDown{bottom: -4px;left: -4px;cursor: sw-resize;}
-#cLeft{left: -4px;top: 50%;margin-top: -4px;cursor: w-resize;}
+.cLeftUp{top: -4px;left: -4px;cursor: nw-resize;}
+.cUp{top: -4px;left: 50%;margin-left: -4px;cursor: n-resize;}
+.cRightUp{top: -4px;right: -4px;cursor: ne-resize;}
+.cRight{right: -4px;top: 50%;margin-top: -4px;cursor: e-resize;}
+.cRightDown{bottom: -4px;right: -4px;cursor: se-resize;}
+.cDown{bottom: -4px;left: 50%;margin-left: -4px;cursor: s-resize;}
+.cLeftDown{bottom: -4px;left: -4px;cursor: sw-resize;}
+.cLeft{left: -4px;top: 50%;margin-top: -4px;cursor: w-resize;}
+.drag.active{border: none;background: none;}
+.drag.active div{display: none;}
+
+#wrap{margin-top: 10px;}
+
+.dragWrap{width: 200px;position: fixed;right: 50px;top: 100px;}
+.dragWrap img{cursor: pointer;}
+
+.cacheEle{display: none;}

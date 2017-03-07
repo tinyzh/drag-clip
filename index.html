@@ -4,33 +4,41 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="style.css"/>
-
-
-
   </head>
   <body>
     <div id="ele">
-      <div class="img img1">
-        <img src="1.jpg" width="100%"/>
-      </div>
-      <div class="img img2">
-        <img src="2.jpg" width="100%"/>
-      </div>
 
-      <div id="drag">
-        <div id="cRightDown" class="dragDot"></div>
-        <div id="cLeftDown" class="dragDot"></div>
-        <div id="cRightUp" class="dragDot"></div>
-        <div id="cLeftUp" class="dragDot"></div>
-        <div id="cRight" class="dragDot"></div>
-        <div id="cDown" class="dragDot"></div>
-        <div id="cLeft" class="dragDot"></div>
-        <div id="cUp" class="dragDot"></div>
-      </div>
+
+      <!--<div class="drag" data-type="drag">-->
+        <!--<div data-type="cRightDown" class="dragDot cRightDown"></div>-->
+        <!--<div data-type="cLeftDown" class="dragDot cLeftDown"></div>-->
+        <!--<div data-type="cRightUp" class="dragDot cRightUp"></div>-->
+        <!--<div data-type="cLeftUp" class="dragDot cLeftUp"></div>-->
+        <!--<div data-type="cRight" class="dragDot cRight"></div>-->
+        <!--<div data-type="cDown" class="dragDot cDown"></div>-->
+        <!--<div data-type="cLeft" class="dragDot cLeft"></div>-->
+        <!--<div data-type="cUp" class="dragDot cUp"></div>-->
+      <!--</div>-->
     </div>
 
-    <div id="wrap">
+    <div class="dragWrap">
+        <img src="1.jpg" width="50px" title="拖拽我" draggable="true" class="drag-item">
+        <img src="2.jpg" width="50px" title="拖拽我" draggable="true" class="drag-item">
+    </div>
 
+    <!--生成图片区域-->
+    <div id="wrap">
+    </div>
+
+    <div class="cacheEle">
+        <div data-type="cRightDown" class="dragDot cRightDown"></div>
+        <div data-type="cLeftDown" class="dragDot cLeftDown"></div>
+        <div data-type="cRightUp" class="dragDot cRightUp"></div>
+        <div data-type="cLeftUp" class="dragDot cLeftUp"></div>
+        <div data-type="cRight" class="dragDot cRight"></div>
+        <div data-type="cDown" class="dragDot cDown"></div>
+        <div data-type="cLeft" class="dragDot cLeft"></div>
+        <div data-type="cUp" class="dragDot cUp"></div>
     </div>
 
     <div class="go">生成</div>
@@ -38,48 +46,7 @@
     <script src="jquery2.0.3.js"></script>
     <script type="text/javascript" src="html2canvas.js"></script>
     <script src="drag.js"></script>
-    <script type="text/javascript">
-      var ele = document.getElementById('ele');
-      var wrap = $('#wrap');
-      var uploadBtn = $('.upload');
+    <script src="makeimg.js "></script>
 
-      $('.go').on('click',function(){
-        html2canvas(ele).then(function(canvas) {
-          canvas.fillStyle = "#fff";
-          var img = convertCanvasToImage(canvas);
-          var minSizeFile = canvas.toDataURL('image/jpeg',0.7);
-          base64_uploading(minSizeFile);
-          wrap.html(img);
-        });
-      });
-
-      uploadBtn.on('click',function(){
-          var base64Data = wrap.find('img').attr('src');
-          base64_uploading(base64Data);
-      });
-
-
-      function convertCanvasToImage(canvas){
-        var image = new Image();
-        image.src = canvas.toDataURL("image/png");
-        return image;
-      }
-
-      function base64_uploading(base64Data){
-        $.ajax({
-            type : 'POST',
-            url : 'receive.php',
-            data : {
-              'base64' : base64Data
-            },
-            dataType : 'json',
-            timeout : 50000,
-            success : function(data){
-                console.log(data);
-            }
-        })
-      }
-
-    </script>
   </body>
 </html>

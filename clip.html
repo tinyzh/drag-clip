@@ -125,12 +125,16 @@
         if(draggingY < cAreaTop) draggingY = cAreaTop;
         if(draggingY > cAreaTop + cAreaH) draggingY = cAreaTop + cAreaH;
         var dragY = getPosition(drag).Y;
+//        console.log(dragY,draggingY);
         if(str === 'up'){
             var changeHeight = dragY - draggingY;
+
             drag.style.top = drag.offsetTop - dragY + draggingY + 'px';
         } else if(str === 'down') {
             var changeHeight = draggingY - drag.offsetHeight - dragY;
         }
+        console.log(drag.offsetHeight + changeHeight)
+        debugger;
         drag.style.height = drag.offsetHeight + changeHeight + 'px';
         setClip();
     };
@@ -141,6 +145,7 @@
         if(draggingX < cAreaLeft) draggingX = cAreaLeft;
         if(draggingX > cAreaLeft + cAreaW) draggingX = cAreaLeft + cAreaW;
         var dragX = getPosition(drag).X;
+
         if(str === 'left') {
             var changeWidth = dragX - draggingX;
             drag.style.left = drag.offsetLeft - changeWidth + 'px';
